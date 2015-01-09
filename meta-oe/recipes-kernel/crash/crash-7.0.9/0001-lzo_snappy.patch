@@ -1,0 +1,39 @@
+From aab7f6d5ba37d85932783434f923d5bf21b4c13f Mon Sep 17 00:00:00 2001
+From: leimh <leimaohui@cn.fujitsu.com>
+Date: Wed, 7 Jan 2015 15:34:54 +0900
+Subject: [PATCH 1/2] lzo_snappy
+
+---
+ Makefile   | 2 +-
+ diskdump.c | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 68521b8..3397eeb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -225,7 +225,7 @@ all: make_configure
+ gdb_merge: force
+ 	@if [ ! -f ${GDB}/README ]; then \
+ 	  make --no-print-directory gdb_unzip; fi
+-	@echo "${LDFLAGS} -lz -ldl -rdynamic" > ${GDB}/gdb/mergelibs
++	@echo "${LDFLAGS} -lz -llzo2 -lsnappy -ldl -rdynamic" &gt; ${GDB}/gdb/mergelibs
+ 	@echo "../../${PROGRAM} ../../${PROGRAM}lib.a" > ${GDB}/gdb/mergeobj
+ 	@rm -f ${PROGRAM}
+ 	@if [ ! -f ${GDB}/config.status ]; then \
+diff --git a/diskdump.c b/diskdump.c
+index 3d33fdc..95b92ee 100644
+--- a/diskdump.c
++++ b/diskdump.c
+@@ -23,6 +23,8 @@
+  * GNU General Public License for more details.
+  */
+ 
++#define LZO
++#define SNAPPY
+ #include "defs.h"
+ #include "diskdump.h"
+ 
+-- 
+1.8.4.2
+
